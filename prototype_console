@@ -1,0 +1,88 @@
+package maker_may;
+import java.util.Scanner;
+
+ class FinCalendar {
+     int st_day, fin_day;
+     int mn, delta,check;
+     String txt;
+     Scanner in = new Scanner(System.in);
+
+
+     // ввод даты отсчета
+     private void stDay() {
+         txt = "Enter the reference date: ";
+         System.out.print(txt);
+         st_day = in.nextInt();
+         if(st_day<=0 || st_day>31){
+             txt = "Enter the data correctly: ";
+             System.out.println(txt);
+             stDay();
+         }
+     }
+
+     // ввод финального дня
+     private void finDay() {
+         txt = "Enter the data of the payday: ";
+         System.out.print(txt);
+         fin_day = in.nextInt();
+         if (fin_day <= 0 || fin_day > 31)
+         {
+             txt = "Enter the date payday correctly";
+             System.out.println(txt);
+             finDay();
+         }else if(fin_day==st_day){
+             System.out.println("Payday has already arrived");
+             System.exit(0);
+         }
+     }
+
+     // ввод остатка средств
+     private void inpMoney () {
+         txt = "Enter the current balance: ";
+         System.out.print(txt);
+         mn = in.nextInt();
+         if(mn<=0){
+             txt = "Enter the correct data";
+             System.out.println(txt);
+             inpMoney();
+         }
+     }
+
+     public void userInput(){
+         stDay();
+         finDay();
+         inpMoney();
+     }
+
+
+        //вычисление количества дней
+        private void period (){
+            delta = fin_day - st_day;
+            System.out.println("There are days left until the paycheck: " + delta );
+        }
+
+        // вычисление среднего чека/ день
+         private void averCheck(){
+            try{
+                 check = mn/delta;
+            }catch(ArithmeticException ae){
+                System.out.println("Ошибка на этапе ввода дат. Вернитесь на несколь шагов назад");
+                userInput();
+            }
+            System.out.println("Average check/day,р: " + check);
+        }
+
+        public void userResult(){
+         period();
+         averCheck();
+            System.exit(0);
+     }
+
+     public static void main(String[] args){
+        FinCalendar fc = new FinCalendar();
+        fc.userInput();
+        fc.userResult();
+        }
+ }
+
+
