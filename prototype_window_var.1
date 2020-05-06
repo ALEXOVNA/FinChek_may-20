@@ -1,0 +1,66 @@
+package maker_may;
+
+import javax.swing.*;
+import java.awt.event.*;
+
+class Interface extends JFrame {
+
+    Interface() {
+
+        super("interface");
+        setBounds(550, 250, 300, 300);
+        setDefaultCloseOperation(3);
+        setLayout(null);
+        setResizable(true);
+
+        //------------------------
+        JLabel stDayL = new JLabel();
+        stDayL.setText("Reference date");
+        stDayL.setBounds(10, 10, 110, 30);
+        JLabel finDayL = new JLabel("Payday");
+        finDayL.setBounds(10, 55, 110, 40);
+        JLabel mnL = new JLabel("Current balance");
+        mnL.setBounds(10, 100, 110, 40);
+
+        JTextField stDayF = new JTextField();
+        stDayF.setBounds(140, 15, 110, 30);
+        JTextField finDayF = new JTextField();
+        finDayF.setBounds(140, 60, 110, 30);
+        JTextField mnF = new JTextField();
+        mnF.setBounds(140, 105, 110, 30);
+
+        //variables
+         //int stDay = Integer.parseInt(stDayF.getText());
+        String stDay = stDayF.getText();
+         String finDay = mnF.getText();
+         String mn = mnF.getText();
+
+        JButton calcB = new JButton("calculate");
+        calcB.setBounds(85, 160, 110, 30);
+        calcB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        //-----------------------------------
+        add(stDayL);
+        add(finDayL);
+        add(mnL);
+        add(stDayF);
+        add(finDayF);
+        add(mnF);
+        add(calcB);
+
+        setVisible(true);
+    }
+
+
+      public static void main(String[] args) {
+          new Interface();
+
+      }
+}
+
+
+
