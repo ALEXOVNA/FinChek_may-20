@@ -1,0 +1,79 @@
+package maker_may;
+
+    import javax.swing.*;
+    import java.awt.event.*;
+
+    class Interface extends JFrame{
+            JLabel stDayL,finDayL,mnL;
+            JTextField stDayF,finDayF,mnF;
+            JButton calcB;
+        Interface(){
+        super("FinCheck");
+        int x = 10; int y = 10;
+        int w = 110; int h = 30;
+            setBounds(550, 250, 260, 270);
+            setDefaultCloseOperation(3);
+            setLayout(null);
+            setResizable(false);
+
+            // параметры метки текста
+            stDayL = new JLabel("Reference data");
+            stDayL.setBounds(x, y, w, h);
+            stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            finDayL = new JLabel("PayDay");
+            finDayL.setBounds(x, y+40, w, h);
+            finDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            mnL = new JLabel("Current balance");
+            mnL.setBounds(10, y+80, w, h);
+            mnL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            stDayF = new JTextField();
+            stDayF.setBounds(x+120, y, w, h);
+
+            finDayF = new JTextField();
+            finDayF.setBounds(x+120, y+40, w, h);
+
+            mnF = new JTextField();
+            mnF.setBounds(x+120, y+80, w, h);
+
+            calcB = new JButton();
+            calcB.setText("CALCULATE");
+            calcB.setBounds(x+120, y+130, w, h);
+            calcB.setFocusPainted(false);
+
+            //регистрация обработчика действий
+            // при нажатии должен срабатывать метод вычисления
+            // и отображаться окно с результатом
+            calcB.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae){
+                    // метод для проверки работы метода actionPerformed
+                    System.out.println("closed");
+                    System.exit(0);
+                }
+            });
+
+            add(stDayL);
+            add(finDayL);
+            add(mnL);
+            add(stDayF);
+            add(finDayF);
+            add(mnF);
+            add(calcB);
+
+            setVisible(true);
+        }
+    }
+
+    public class Interface_var2{
+        public static void main(String[] args){
+            new Interface();
+        }
+    }
+
+
