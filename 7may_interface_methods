@@ -1,0 +1,111 @@
+package maker_may;
+
+    import javax.swing.*;
+    import java.awt.event.*;
+    import java.util.regex.Pattern;
+
+class Interface extends JFrame{
+            int stDay,finDay,mn, deltaDay,checkDay;
+           final JLabel stDayL,finDayL,mnL;
+            JTextField stDayF,finDayF,mnF;
+            JButton calcB;
+        Interface(){
+        super("FinCheck");
+        int x = 10; int y = 10;
+        int w = 110; int h = 30;
+            setBounds(550, 250, 260, 270);
+            setDefaultCloseOperation(3);
+            setLayout(null);
+            setResizable(false);
+
+            stDayL = new JLabel("Reference data");
+            stDayL.setBounds(x, y, w, h);
+            stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            finDayL = new JLabel("PayDay");
+            finDayL.setBounds(x, y+40, w, h);
+            finDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            mnL = new JLabel("Current balance");
+            mnL.setBounds(10, y+80, w, h);
+            mnL.setBorder(BorderFactory.createEtchedBorder());
+
+
+            stDayF = new JTextField();
+            stDayF.setBounds(x+120, y, w, h);
+            //stDay
+
+            finDayF = new JTextField();
+            finDayF.setBounds(x+120, y+40, w, h);
+
+            mnF = new JTextField();
+            mnF.setBounds(x+120, y+80, w, h);
+
+            calcB = new JButton();
+            calcB.setText("CALCULATE");
+            calcB.setBounds(x+120, y+130, w, h);
+            calcB.setFocusPainted(false);
+
+            //ввод ограничений на ввод в поле
+            stDayF.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    //super.keyPressed(e);
+                    final String regex = "[1-31]{1,2}";
+                    Pattern p = Pattern.compile(regex);
+                }
+            });
+
+            //регистрация обработчика действий
+            // при нажатии должен срабатывать метод вычисления
+            // и отображаться окно с результатом
+            calcB.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae){
+                    // метод для проверки работы метода actionPerformed
+                    mathDelta();
+                    inputMoney();
+                    averageCheck();
+                }
+            });
+
+            add(stDayL);
+            add(finDayL);
+            add(mnL);
+            add(stDayF);
+            add(finDayF);
+            add(mnF);
+            add(calcB);
+
+            setVisible(true);
+        }
+
+
+     void mathDelta(){
+        stDay = Integer.parseInt(stDayF.getText());
+        finDay = Integer.parseInt(finDayF.getText());
+        deltaDay = finDay-stDay;
+        System.out.println("deltaDay: " + deltaDay);
+    }
+
+    void inputMoney(){
+            mn = Integer.parseInt(mnF.getText());
+    }
+
+    void averageCheck(){
+          checkDay = mn/deltaDay;
+          System.out.println("checkDay: " + checkDay);
+    }
+
+
+    }
+
+public class Interface_var2{
+        public static void main(String[] args){
+            new Interface();
+        }
+    }
+
+
