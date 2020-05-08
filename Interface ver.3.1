@@ -1,0 +1,133 @@
+package maker_may;
+
+import javax.swing.*;
+import java.awt.event.*;
+
+class Interface extends JFrame{
+
+    private double stDay,finDay,mn,result, deltaDay;
+    String strRes;
+    final JLabel stDayL,finDayL,mnL;
+    JTextField stDayF,finDayF,mnF; JButton calcB;
+
+    Interface(){
+        super("FinCheck");
+        int x = 10; int y = 10;
+        int w = 110; int h = 30;
+        this.setBounds(550, 250, 260, 270);
+        this.setDefaultCloseOperation(3);
+        this.setLayout(null);
+        this.setResizable(false);
+
+        stDayL = new JLabel("Reference data");
+        stDayL.setBounds(x, y, w, h);
+        stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        finDayL = new JLabel("PayDay");
+        finDayL.setBounds(x, y+40, w, h);
+        finDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        mnL = new JLabel("Current balance");
+        mnL.setBounds(10, y+80, w, h);
+        mnL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        stDayF = new JTextField();
+        stDayF.setBounds(x+120, y, w, h);
+
+
+        finDayF = new JTextField();
+        finDayF.setBounds(x+120, y+40, w, h);
+
+        mnF = new JTextField();
+        mnF.setBounds(x+120, y+80, w, h);
+
+        calcB = new JButton();
+        calcB.setText("CALCULATE");
+        calcB.setBounds(x+120, y+130, w, h);
+        calcB.setFocusPainted(false);
+
+        calcB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae){
+                printResult();
+                dispose();
+            }
+        });
+
+        this.add(stDayL);
+        this.add(finDayL);
+        this.add(mnL);
+        this.add(stDayF);
+        this.add(finDayF);
+        this.add(mnF);
+        this.add(calcB);
+        this.setVisible(true);
+    }
+
+
+    void convertDay(){
+        stDay = Double.parseDouble(stDayF.getText());
+        finDay = Double.parseDouble(finDayF.getText());
+    }
+
+    void convertMoney(){
+        mn = Double.parseDouble(mnF.getText());
+    }
+
+    void stDayIf(){
+        stDayF.selectAll();
+        stDayF.replaceSelection(null);
+        System.out.println("ERR 1");
+        checkingData();
+    }
+
+    void finDayIf(){
+        finDayF.selectAll();
+        finDayF.replaceSelection(null);
+        System.out.println("ERR 2");
+        checkingData();
+    }
+
+    void mnIf(){
+        mnF.selectAll();
+        mnF.replaceSelection(null);
+        System.out.println("ERR 3");
+        checkingData();
+    }
+
+      void checkingData() {
+          if(stDay<=0 | stDay>31) stDayIf();
+          if (finDay<=0 | finDay>31 | (finDay<=stDay)){
+              finDayIf();
+          }
+          if(mn<=0){
+              mnIf();
+          }else {
+              averageCheck();
+              JOptionPane.showMessageDialog(null,strRes,"FinCheck",1);
+          }
+    }
+
+         void averageCheck(){
+            deltaDay = finDay-stDay;
+            result = mn/deltaDay;
+            strRes = "Max check rub/per day: " + result;
+        }
+
+        void printResult(){
+        convertDay();
+        convertMoney();
+        checkingData();
+    }
+}
+
+public class Interface_ver3{
+    public static void main(String[] args){
+        new Interface();
+    }
+}
+
+
