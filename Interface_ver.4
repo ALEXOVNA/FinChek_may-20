@@ -1,0 +1,143 @@
+package maker_may;
+import javax.swing.*;
+
+class FinCheck extends JFrame {
+
+    private double stDay, finDay, mn;
+
+    String strRes;
+    JLabel stDayL, finDayL, mnL;
+    JTextField stDayF, finDayF, mnF;
+    JButton calcB;
+
+    FinCheck() {
+        super("FinCheck");
+        int x = 10;
+        int y = 10;
+        int w = 110;
+        int h = 30;
+        this.setBounds(550, 250, 260, 270);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setResizable(false);
+
+        stDayL = new JLabel("Reference data");
+        stDayL.setBounds(x, y, w, h);
+        stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        finDayL = new JLabel("PayDay");
+        finDayL.setBounds(x, y + 40, w, h);
+        finDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        mnL = new JLabel("Current balance");
+        mnL.setBounds(10, y + 80, w, h);
+        mnL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        stDayF = new JTextField();
+        stDayF.setBounds(x + 120, y, w, h);
+
+
+        finDayF = new JTextField();
+        finDayF.setBounds(x + 120, y + 40, w, h);
+
+        mnF = new JTextField();
+        mnF.setBounds(x + 120, y + 80, w, h);
+
+        calcB = new JButton();
+        calcB.setText("CALCULATE");
+        calcB.setBounds(x + 120, y + 130, w, h);
+        calcB.setFocusPainted(false);
+
+        calcB.addActionListener(ae -> {
+            checkCorrectStDay();
+            dispose();
+        });
+
+        this.add(stDayL);
+        this.add(finDayL);
+        this.add(mnL);
+        this.add(stDayF);
+        this.add(finDayF);
+        this.add(mnF);
+        this.add(calcB);
+        this.setVisible(true);
+    }
+
+    void stDayFClear() {
+        stDayF.selectAll();
+        stDayF.replaceSelection(null);
+        checkCorrectStDay();
+        System.out.println("ERR 1");
+    }
+
+    void finDayFClear() {
+        finDayF.selectAll();
+        finDayF.replaceSelection(null);
+        checkCorrectFinDay();
+        System.out.println("ERR 2");
+    }
+
+    void mnFClear() {
+        mnF.selectAll();
+        mnF.replaceSelection(null);
+        checkCorrectMnF();
+        System.out.println("ERR 3");
+    }
+
+    public void checkCorrectStDay() {
+        stDay = Double.parseDouble(stDayF.getText());
+        if (stDay <= 0 || stDay > 31) {
+            stDayFClear();
+            System.out.println("ERR 1");
+        } else {
+            System.out.println("success");
+            checkCorrectFinDay();
+        }
+    }
+
+    void checkCorrectFinDay() {
+            finDay = Double.parseDouble(finDayF.getText());
+            if (finDay <= 0 || finDay > 31) {
+                finDayFClear();
+                System.out.println("ERR 2");
+            } else{
+                checkCorrectMnF();
+                System.out.println("success");
+            }
+    }
+
+    void checkCorrectMnF() {
+        mn = Double.parseDouble(mnF.getText());
+        if(mn<=0){
+            mnFClear();
+        }else{
+            averageCheck();
+            System.out.println("success");
+        }
+    }
+
+    void averageCheck() {
+        double deltaDay = finDay - stDay;
+        double result = Math.round(mn / deltaDay);
+        strRes = "Max check rub/per day: " + result;
+        printResult();
+    }
+
+    void printResult() {
+        JOptionPane.showMessageDialog(null, strRes, "FinCheck", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+ }
+
+ public class Interface_ver3 {
+        public static void main(String[] args) {
+            new FinCheck();
+            }
+}
+
+
+
+
