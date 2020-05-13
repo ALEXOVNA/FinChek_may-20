@@ -1,0 +1,153 @@
+ package maker_may;
+
+import javax.swing.*;
+
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.round;
+
+class FinCheck extends JFrame {
+
+    private double stDay, finDay, myMoney;
+    private String theAnswer= "";
+
+    private final JTextField stDayF, finDayF, myMoneyF;
+
+    FinCheck() {
+        super("FinCheck");
+        final int x = 10;
+        final int y = 10;
+        final int w = 110;
+        final int h = 30;
+        setBounds(550, 250, 260, 270);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLayout(null);
+        setResizable(false);
+
+        JLabel stDayL = new JLabel("Reference data");
+        stDayL.setBounds(x, y, w, h);
+        stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        JLabel finDayL = new JLabel("PayDay");
+        finDayL.setBounds(x, y + 40, w, h);
+        finDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        JLabel myMoneyL = new JLabel("Current balance");
+        myMoneyL.setBounds(10, y + 80, w, h);
+        myMoneyL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        stDayF = new JTextField();
+        stDayF.setBounds(x + 120, y, w, h);
+
+
+        finDayF = new JTextField();
+        finDayF.setBounds(x + 120, y + 40, w, h);
+
+        myMoneyF = new JTextField();
+        myMoneyF.setBounds(x + 120, y + 80, w, h);
+
+        JButton finChekB = new JButton();
+        finChekB.setText("CALCULATE");
+        finChekB.setBounds(x + 120, y + 130, w, h);
+        finChekB.setFocusPainted(false);
+
+        finChekB.addActionListener(ae -> {
+            checkCorrectInputStDay();
+            dispose();
+        });
+
+        this.add(stDayL);
+        this.add(finDayL);
+        this.add(myMoneyL);
+        this.add(stDayF);
+        this.add(finDayF);
+        this.add(myMoneyF);
+        this.add(finChekB);
+        this.setVisible(true);
+    }
+
+    private void stDayFClear() {
+        stDayF.selectAll();
+        stDayF.replaceSelection(null);
+        checkCorrectInputStDay();
+    }
+
+    private void finDayFClear() {
+        finDayF.selectAll();
+        finDayF.replaceSelection(null);
+        checkCorrectInputFinDay();
+        checkCorrectMnF();
+    }
+
+    private void myMoneyFClear() {
+        myMoneyF.selectAll();
+        myMoneyF.replaceSelection(null);
+        checkCorrectMnF();
+    }
+
+
+    private void checkCorrectInputStDay() {
+        try{
+            stDay = parseDouble(stDayF.getText());
+        }
+        catch (IllegalArgumentException argExcept){
+            stDayFClear();
+        }
+        checkCorrectInputFinDay();
+
+    }
+
+    private void checkData(){
+        if(0>=stDay|| stDay>31){
+            stDayFClear();
+        }if(finDay<=0 || finDay>31){
+            finDayFClear();
+        } if(stDay>=finDay){
+            stDayFClear();
+            finDayFClear();
+        }else{
+            checkCorrectMnF();
+        }
+    }
+
+
+private void checkCorrectInputFinDay() {
+       try {
+           finDay = parseDouble(this.finDayF.getText());
+       } catch(IllegalArgumentException argExcept){
+           finDayFClear();
+       }
+       checkData();
+
+    }
+
+
+    private void checkCorrectMnF() {
+       try {
+           myMoney = parseDouble(myMoneyF.getText());
+       } catch (IllegalArgumentException argExcept){
+           myMoneyFClear();
+       }
+           averageCheck();
+
+}
+
+private void  averageCheck() {
+        double deltaDay = finDay - stDay;
+        double result = round(myMoney / deltaDay);
+        theAnswer = "Max check rub/per day: " + result;
+        printResult();
+        }
+
+private void printResult() {
+        JOptionPane.showMessageDialog(null, theAnswer, "FinCheck", JOptionPane.INFORMATION_MESSAGE);
+    }
+}//FinCheck
+
+ class Interface_ver5_1 {
+    public static void main(String[] args) {
+        new FinCheck();
+    }
+}
