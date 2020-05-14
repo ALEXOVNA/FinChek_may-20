@@ -1,0 +1,169 @@
+package maker_may;
+
+import javax.swing.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+class FinCheck extends JFrame {
+
+
+    Date stDay, payDay;
+    private final int SUTKI = 24*60*60*1000;
+    private int myMoney;
+    Long deltaDay; int days, result;
+    private String theAnswer= "";
+
+    private final JTextField stDayF, payDayF, myMoneyF;
+
+    FinCheck() {
+        super("FinCheck");
+        final int x = 10;
+        final int y = 10;
+        final int w = 110;
+        final int h = 30;
+        setBounds(550, 250, 260, 270);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLayout(null);
+        setResizable(false);
+
+        JLabel stDayL = new JLabel("Reference data");
+        stDayL.setBounds(x, y, w, h);
+        stDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        JLabel payDayL = new JLabel("PayDay");
+        payDayL.setBounds(x, y + 40, w, h);
+        payDayL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        JLabel myMoneyL = new JLabel("Current balance");
+        myMoneyL.setBounds(10, y + 80, w, h);
+        myMoneyL.setBorder(BorderFactory.createEtchedBorder());
+
+
+        stDayF = new JTextField();
+        stDayF.setBounds(x + 120, y, w, h);
+
+
+        payDayF = new JTextField();
+        payDayF.setBounds(x + 120, y + 40, w, h);
+
+        myMoneyF = new JTextField();
+        myMoneyF.setBounds(x + 120, y + 80, w, h);
+
+        JButton finChekB = new JButton();
+        finChekB.setText("CALCULATE");
+        finChekB.setBounds(x + 120, y + 130, w, h);
+        finChekB.setFocusPainted(false);
+
+        finChekB.addActionListener(ae -> {
+            checkCorrectInputStDay();
+            dispose();
+        });
+
+        this.add(stDayL);
+        this.add(payDayL);
+        this.add(myMoneyL);
+        this.add(stDayF);
+        this.add(payDayF);
+        this.add(myMoneyF);
+        this.add(finChekB);
+        this.setVisible(true);
+    }
+
+    // создание оюъекта формата даты
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+    private void inputStDay() {
+        //System.out.println("Enter current date: dd/MM/yyyy");
+        try {
+            stDay = format.parse(stDayF.getText());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void inputPayDay(){
+        //System.out.println("Enter payday: dd/MM/yyyy");
+        try {
+            payDay = format.parse(payDayF.getText());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void stDayFClear() {
+        stDayF.selectAll();
+        stDayF.replaceSelection(null);
+        checkCorrectInputStDay();
+    }
+
+    private void payDayFClear() {
+        payDayF.selectAll();
+        payDayF.replaceSelection(null);
+        checkCorrectInputPayDay();
+        checkCorrectMnF();
+    }
+
+    private void myMoneyFClear() {
+        myMoneyF.selectAll();
+        myMoneyF.replaceSelection(null);
+        checkCorrectMnF();
+    }
+
+
+    // работа программы начинается отсюда, значит в этом методе будет обработка исключений
+    private void  checkCorrectInputStDay() {
+        try{
+            inputStDay();
+        }
+        catch(Exception e){
+            stDayFClear();
+        }
+        checkCorrectInputPayDay();
+    }
+
+
+
+    private void checkCorrectInputPayDay(){
+        try{
+            inputPayDay();
+        }catch (Exception e){
+            payDayFClear();
+        }
+        checkCorrectMnF();
+    }
+
+    //может быть myMoney нужно преобразовать в int
+    private void checkCorrectMnF() {
+        try {
+            myMoney = Integer.parseInt(myMoneyF.getText());
+        } catch (IllegalArgumentException e){
+            myMoneyFClear();
+        }
+        averageCheck();
+
+    }
+
+    private void  averageCheck() {
+         deltaDay = payDay.getTime() - stDay.getTime();
+         days = (int)(deltaDay/ SUTKI);
+         result = myMoney / days;
+        theAnswer = "Max check rub/per day: " + result;
+       printResult();
+    }
+
+    private void printResult() {
+        JOptionPane.showMessageDialog(null, theAnswer + " \nDelta days: " + days, "FinCheck", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+}//FinCheck
+
+class Interface_ver_6 {
+    public static void main(String[] args) {
+        new FinCheck();
+    }
+}
